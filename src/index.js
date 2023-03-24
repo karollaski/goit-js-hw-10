@@ -36,6 +36,7 @@ const getCountriesInfo = event => {
       if (data.length === 1) {
         const markupCountryInfo = renderCountryInfo(data);
         countryInfo.innerHTML = markupCountryInfo;
+        countriesList.innerHTML = '';
         return;
       }
       const markupCountriesList = renderCountriesList(data);
