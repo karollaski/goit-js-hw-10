@@ -34,12 +34,12 @@ const getCountriesInfo = event => {
         return;
       }
       if (data.length === 1) {
-        const markup = renderCountryInfo(data);
-        countryInfo.innerHTML = markup;
+        const markupCountryInfo = renderCountryInfo(data);
+        countryInfo.innerHTML = markupCountryInfo;
         return;
       }
-      const markup = renderCountriesList(data);
-      countriesList.innerHTML = markup;
+      const markupCountriesList = renderCountriesList(data);
+      countriesList.innerHTML = markupCountriesList;
     })
     .catch(error => {
       console.log(error);
