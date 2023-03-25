@@ -19,8 +19,11 @@ const getCountriesInfo = event => {
   console.log(name);
 
   if (!name) {
+    countriesList.classList.remove('show-elements');
+    countryInfo.classList.remove('show-elements');
     countriesList.innerHTML = '';
     countryInfo.innerHTML = '';
+
     return;
   }
   fetchCountries(name)
@@ -34,13 +37,16 @@ const getCountriesInfo = event => {
         return;
       }
       if (data.length === 1) {
+        countryInfo.classList.add('show-elements');
         const markupCountryInfo = renderCountryInfo(data);
         countryInfo.innerHTML = markupCountryInfo;
         countriesList.innerHTML = '';
         return;
       }
+      countriesList.classList.add('show-elements');
       const markupCountriesList = renderCountriesList(data);
       countriesList.innerHTML = markupCountriesList;
+      countryInfo.innerHTML = '';
     })
     .catch(error => {
       console.log(error);
@@ -67,11 +73,13 @@ const renderCountryInfo = data => {
         languages,
       }) => `<div class="country-info__flag"><img class="country-info__img" src="${
         flags.svg
-      }"></div>
+      }"/></div>
     <h2>${name.official}</h2>
-    <p><span>Capital: </span>${capital}</p>
-    <p><span>Population: </span>${population}</p>
-    <p><span>Languages: </span>${Object.values(languages)}</p>`
+    <p><span class="info-item">Capital: </span>${capital}</p>
+    <p><span class="info-item">Population: </span>${population}</p>
+    <p><span class="info-item">Languages: </span>${Object.values(
+      languages
+    )}</p>`
     )
     .join('');
 };
@@ -81,7 +89,7 @@ const renderCountriesList = data => {
     .map(
       ({ name, flags }) =>
         `<li class="country__item">
-        <img class="country__image" src="${flags.svg}/>
+        <img class="country__image" src="${flags.svg}"/>
         <p class="country__name">${name.common}</p>
         </li>`
     )
