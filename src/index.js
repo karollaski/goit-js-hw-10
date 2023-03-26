@@ -14,9 +14,35 @@ const notifyOptions = {
 
 const DEBOUNCE_DELAY = 300;
 
+// ----------------------------------------------------------
+const getUniqueCountryInfo = event => {
+  const commonCountryName = event.target.textContent;
+  fetchCountries(commonCountryName)
+    .then(data => {
+      data.find(element => {
+        if (element.name.common === commonCountryName) {
+          countryInfo.classList.add('show-elements');
+          const markupCountryInfo = renderCountryInfo([element]);
+          countryInfo.innerHTML = markupCountryInfo;
+          countriesList.innerHTML = '';
+          return;
+        }
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      Notiflix.Notify.failure(
+        'Oops, there is no country with that name',
+        notifyOptions
+      );
+    });
+};
+countriesList.addEventListener('click', getUniqueCountryInfo);
+
+// ----------------------------------------------------------
+
 const getCountriesInfo = event => {
   const name = event.target.value.trim();
-  console.log(name);
 
   if (!name) {
     countriesList.classList.remove('show-elements');
@@ -28,8 +54,6 @@ const getCountriesInfo = event => {
   }
   fetchCountries(name)
     .then(data => {
-      console.log(data);
-      console.log(data.length);
       if (data.length > 10) {
         Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
